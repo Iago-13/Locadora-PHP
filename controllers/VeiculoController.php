@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../models/Veiculo.php';
+require_once __DIR__ . '/../helpers/csrf.php';
 
 class VeiculoController {
     private $veiculo;
@@ -15,6 +16,9 @@ class VeiculoController {
 
     public function adicionar() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!verificarTokenCSRF($_POST['csrf_token'])) {
+                die('Token CSRF inválido');
+            }
             $this->veiculo->adicionar($_POST);
             header('Location: VeiculoController.php?action=index');
         } else {
@@ -25,6 +29,9 @@ class VeiculoController {
     public function editar() {
         $id = $_GET['id'];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!verificarTokenCSRF($_POST['csrf_token'])) {
+                die('Token CSRF inválido');
+            }
             $this->veiculo->atualizar($id, $_POST);
             header('Location: VeiculoController.php?action=index');
         } else {

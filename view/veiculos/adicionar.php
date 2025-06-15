@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/../../helpers/csrf.php'; ?>
 <h2>Adicionar Veículo</h2>
 <form method="POST">
     <input name="marca" placeholder="Marca" required><br>
@@ -10,5 +11,6 @@
             <option value="0">Não</option>
         </select>
     </label><br>
+    <input type="hidden" name="csrf_token" value="<?= gerarTokenCSRF(); ?>">
     <button type="submit">Salvar</button>
 </form>

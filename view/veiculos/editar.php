@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/../../helpers/csrf.php'; ?>
 <h2>Editar Veículo</h2>
 <form method="POST">
     <input name="marca" value="<?= $veiculo['marca'] ?>" required><br>
@@ -10,5 +11,6 @@
             <option value="0" <?= $veiculo['disponivel'] == 0 ? 'selected' : '' ?>>Não</option>
         </select>
     </label><br>
+    <input type="hidden" name="csrf_token" value="<?= gerarTokenCSRF(); ?>">
     <button type="submit">Atualizar</button>
 </form>

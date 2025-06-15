@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../models/Locacao.php';
 require_once __DIR__ . '/../models/Cliente.php';
 require_once __DIR__ . '/../models/Veiculo.php';
+require_once __DIR__ . '/../helpers/csrf.php';
 
 class LocacaoController {
     private $locacao;
@@ -20,6 +21,9 @@ class LocacaoController {
         $veiculos = (new Veiculo())->listar();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!verificarTokenCSRF($_POST['csrf_token'])) {
+                die('Token CSRF inválido');
+            }
             $this->locacao->adicionar($_POST);
             header('Location: LocacaoController.php?action=index');
         } else {
@@ -33,6 +37,9 @@ class LocacaoController {
         $veiculos = (new Veiculo())->listar();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!verificarTokenCSRF($_POST['csrf_token'])) {
+                die('Token CSRF inválido');
+            }
             $this->locacao->atualizar($id, $_POST);
             header('Location: LocacaoController.php?action=index');
         } else {
