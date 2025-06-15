@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/../../helpers/csrf.php'; ?>
 <h2>Nova Locação</h2>
 <form method="POST">
     <label>Cliente:</label>
@@ -22,6 +23,6 @@
 
     <label>Valor Total:</label>
     <input type="number" name="valor_total" step="0.01" required><br>
-
+    <input type="hidden" name="csrf_token" value="<?= gerarTokenCSRF(); ?>">
     <button type="submit">Salvar</button>
 </form>

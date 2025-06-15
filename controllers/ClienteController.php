@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../models/Cliente.php';
+require_once __DIR__ . '/../helpers/csrf.php';
 
 class ClienteController {
     private $cliente;
@@ -15,6 +16,9 @@ class ClienteController {
 
     public function adicionar() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!verificarTokenCSRF($_POST['csrf_token'])) {
+                die('Token CSRF inválido');
+            }
             $this->cliente->adicionar($_POST);
             header('Location: ClienteController.php?action=index');
         } else {
@@ -25,6 +29,9 @@ class ClienteController {
     public function editar() {
         $id = $_GET['id'];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!verificarTokenCSRF($_POST['csrf_token'])) {
+                die('Token CSRF inválido');
+            }
             $this->cliente->atualizar($id, $_POST);
             header('Location: ClienteController.php?action=index');
         } else {
