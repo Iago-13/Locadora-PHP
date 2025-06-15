@@ -1,8 +1,6 @@
--- Criação do banco de dados (opcional)
 CREATE DATABASE IF NOT EXISTS locadora;
 USE locadora;
 
--- Tabela de usuários (login, cadastro, recuperação)
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
@@ -13,7 +11,6 @@ CREATE TABLE IF NOT EXISTS usuarios (
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabela de clientes
 CREATE TABLE IF NOT EXISTS clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
@@ -24,7 +21,6 @@ CREATE TABLE IF NOT EXISTS clientes (
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabela de veículos
 CREATE TABLE IF NOT EXISTS veiculos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     marca VARCHAR(50) NOT NULL,
@@ -35,7 +31,6 @@ CREATE TABLE IF NOT EXISTS veiculos (
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabela de locações
 CREATE TABLE IF NOT EXISTS locacoes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_cliente INT NOT NULL,
