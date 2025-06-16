@@ -1,21 +1,19 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Contato</title>
-    <link rel="stylesheet" href="../css/estilo.css">
-</head>
-<body>
+<?php include '../templates/header.php'; ?>
+<?php include '../templates/navbar.php'; ?>
 
-    <h1>Fale Conosco</h1>
+<main>
+    <h2>Contato</h2>
+    <p>Telefone: (41) 99999-9999</p>
+    <p>Email: atendimento@locadoraveiculos.com.br</p>
+    <p>Endereço: Rua das Flores, 123 - Curitiba/PR</p>
 
-    <p>Telefone: (11) 4002-8922</p>
-    <p>Email: atendimento@locadoradeveiculos.com</p>
-    <p>Endereço: Av. Principal, 1234 - Centro, São Paulo - SP</p>
+    <h3>Envie uma mensagem</h3>
+    <form method="POST" action="#">
+        <input type="text" name="nome" placeholder="Seu nome" required><br>
+        <input type="email" name="email" placeholder="Seu email" required><br>
+        <textarea name="mensagem" placeholder="Sua mensagem" required></textarea><br>
+        <button type="submit">Enviar</button>
+    </form>
+</main>
 
-    <p>Entre em contato conosco para esclarecer dúvidas ou solicitar um orçamento.</p>
-
-    <a href="../index.php">Voltar ao menu</a>
-
-</body>
-</html>
+<?php include '../templates/footer.php'; ?>

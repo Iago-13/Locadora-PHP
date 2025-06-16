@@ -1,21 +1,9 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Sobre Nós</title>
-    <link rel="stylesheet" href="../css/estilo.css">
-</head>
-<body>
+<?php include '../templates/header.php'; ?>
+<?php include '../templates/navbar.php'; ?>
 
-    <h1>Sobre a Locadora</h1>
+<main>
+    <h2>Sobre a Locadora</h2>
+    <p>Somos uma locadora de veículos comprometida com qualidade, agilidade e atendimento personalizado. Trabalhamos com veículos novos e revisados, oferecendo segurança e conforto para sua viagem ou compromisso.</p>
+</main>
 
-    <p>Somos uma empresa com mais de 10 anos no mercado de aluguel de veículos, oferecendo soluções práticas, econômicas e seguras para nossos clientes.</p>
-
-    <p>Nossa missão é proporcionar liberdade e conforto para quem precisa de mobilidade, seja em viagens, passeios ou trabalho.</p>
-
-    <p>Conte conosco para encontrar o carro ideal para você.</p>
-
-    <a href="../index.php">Voltar ao menu</a>
-
-</body>
-</html>
+<?php include '../templates/footer.php'; ?>
