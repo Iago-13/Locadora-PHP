@@ -3,6 +3,9 @@ require_once __DIR__ . '/../models/Locacao.php';
 require_once __DIR__ . '/../models/Cliente.php';
 require_once __DIR__ . '/../models/Veiculo.php';
 require_once __DIR__ . '/../helpers/csrf.php';
+require_once __DIR__ . '/../helpers/auth.php';
+verificarAutenticacao();
+
 
 class LocacaoController {
     private $locacao;
