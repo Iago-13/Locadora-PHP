@@ -24,7 +24,7 @@ class AuthController {
                 $erro = "Credenciais inválidas.";
             }
         }
-        include _DIR_ . '/../views/auth/login.php';
+        include __DIR__ . '/../views/auth/login.php';
     }
 
     public function cadastro() {
@@ -35,7 +35,7 @@ class AuthController {
             $this->usuario->cadastrar($_POST);
             header('Location: AuthController.php?action=login');
         }
-        include _DIR_ . '/../views/auth/cadastro.php';
+        include __DIR__ . '/../views/auth/cadastro.php';
     }
 
     public function recuperar() {
@@ -52,7 +52,7 @@ class AuthController {
                 $erro = "Usuário não encontrado.";
             }
         }
-        include _DIR_ . '/../views/auth/recuperar.php';
+        include __DIR__ . '/../views/auth/recuperar.php';
     }
 
     public function logout() {
