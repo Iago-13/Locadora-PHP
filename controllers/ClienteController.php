@@ -1,54 +1,54 @@
 <?php
-require_once __DIR__ . '/../models/Cliente.php';
-require_once __DIR__ . '/../helpers/csrf.php';
-require_once __DIR__ . '/../helpers/auth.php';
-verificarAutenticacao();
+require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../models/cliente_model.php';
+session_start();
 
-class ClienteController {
-    private $cliente;
+$cliente = new Cliente($conn);
 
-    public function __construct() {
-        $this->cliente = new Cliente();
-    }
+if (!isset($_SESSION['usuario'])) {
+    header('Location: ../views/login.php');
+    exit;
+}
 
-    public function index() {
-        $clientes = $this->cliente->listar();
-        include __DIR__ . '/../views/clientes/listar.php';
-    }
+if (isset($_POST['acao'])) {
+    $acao = $_POST['acao'];
 
-    public function adicionar() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!verificarTokenCSRF($_POST['csrf_token'])) {
-                die('Token CSRF inválido');
-            }
-            $this->cliente->adicionar($_POST);
-            header('Location: ClienteController.php?action=index');
+    if ($acao == 'cadastrar') {
+        $nome = $_POST['nome'];
+        $cpf = $_POST['cpf'];
+        $telefone = $_POST['telefone'];
+        $endereco = $_POST['endereco'];
+
+        if ($cliente->cadastrar($nome, $cpf, $telefone, $endereco)) {
+            header('Location: ../views/clientes.php?sucesso=1');
+            exit;
         } else {
-            include __DIR__ . '/../views/clientes/adicionar.php';
+            header('Location: ../views/clientes.php?erro=1');
+            exit;
         }
     }
 
-    public function editar() {
-        $id = $_GET['id'];
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!verificarTokenCSRF($_POST['csrf_token'])) {
-                die('Token CSRF inválido');
-            }
-            $this->cliente->atualizar($id, $_POST);
-            header('Location: ClienteController.php?action=index');
-        } else {
-            $cliente = $this->cliente->buscar($id);
-            include __DIR__ . '/../views/clientes/editar.php';
-        }
-    }
+    if ($acao == 'editar') {
+        $id = $_POST['id'];
+        $nome = $_POST['nome'];
+        $cpf = $_POST['cpf'];
+        $telefone = $_POST['telefone'];
+        $endereco = $_POST['endereco'];
 
-    public function deletar() {
-        $id = $_GET['id'];
-        $this->cliente->deletar($id);
-        header('Location: ClienteController.php?action=index');
+        if ($cliente->atualizar($id, $nome, $cpf, $telefone, $endereco)) {
+            header('Location: ../views/clientes.php?editado=1');
+            exit;
+        } else {
+            header('Location: ../views/clientes.php?erro=1');
+            exit;
+        }
     }
 }
 
-$controller = new ClienteController();
-$action = $_GET['action'] ?? 'index';
-$controller->$action();
+if (isset($_GET['excluir'])) {
+    $id = $_GET['excluir'];
+    $cliente->excluir($id);
+    header('Location: ../views/clientes.php?excluido=1');
+    exit;
+}
+?>

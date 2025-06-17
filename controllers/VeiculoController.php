@@ -1,55 +1,63 @@
 <?php
-require_once __DIR__ . '/../models/Veiculo.php';
-require_once __DIR__ . '/../helpers/csrf.php';
-require_once __DIR__ . '/../helpers/auth.php';
-verificarAutenticacao();
+require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../models/veiculo_model.php';
+session_start();
 
+if (!isset($_SESSION['usuario'])) {
+    header('Location: ../views/login.php');
+    exit;
+}
 
-class VeiculoController {
-    private $veiculo;
+$veiculo = new Veiculo($conn);
 
-    public function __construct() {
-        $this->veiculo = new Veiculo();
-    }
+if (isset($_POST['acao'])) {
+    $acao = $_POST['acao'];
 
-    public function index() {
-        $veiculos = $this->veiculo->listar();
-        include __DIR__ . '/../views/veiculos/listar.php';
-    }
+    if ($acao == 'cadastrar') {
+        $marca = $_POST['marca'];
+        $modelo = $_POST['modelo'];
+        $placa = $_POST['placa'];
+        $ano = $_POST['ano'];
+        $disponivel = $_POST['disponivel'];
 
-    public function adicionar() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!verificarTokenCSRF($_POST['csrf_token'])) {
-                die('Token CSRF inválido');
-            }
-            $this->veiculo->adicionar($_POST);
-            header('Location: VeiculoController.php?action=index');
+        if ($veiculo->cadastrar($marca, $modelo, $placa, $ano, $disponivel)) {
+            header('Location: ../views/veiculos.php?sucesso=1');
         } else {
-            include __DIR__ . '/../views/veiculos/adicionar.php';
+            header('Location: ../views/veiculos.php?erro=1');
         }
+        exit;
     }
 
-    public function editar() {
-        $id = $_GET['id'];
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!verificarTokenCSRF($_POST['csrf_token'])) {
-                die('Token CSRF inválido');
-            }
-            $this->veiculo->atualizar($id, $_POST);
-            header('Location: VeiculoController.php?action=index');
+    if ($acao == 'editar') {
+        $id = $_POST['id'];
+        $marca = $_POST['marca'];
+        $modelo = $_POST['modelo'];
+        $placa = $_POST['placa'];
+        $ano = $_POST['ano'];
+        $disponivel = $_POST['disponivel'];
+
+        if ($veiculo->atualizar($id, $marca, $modelo, $placa, $ano, $disponivel)) {
+            header('Location: ../views/veiculos.php?editado=1');
         } else {
-            $veiculo = $this->veiculo->buscar($id);
-            include __DIR__ . '/../views/veiculos/editar.php';
+            header('Location: ../views/veiculos.php?erro=1');
         }
-    }
-
-    public function deletar() {
-        $id = $_GET['id'];
-        $this->veiculo->deletar($id);
-        header('Location: VeiculoController.php?action=index');
+        exit;
     }
 }
 
-$controller = new VeiculoController();
-$action = $_GET['action'] ?? 'index';
-$controller->$action();
+if (isset($_GET['excluir'])) {
+    $id = $_GET['excluir'];
+    if ($veiculo->excluir($id)) {
+        header('Location: ../views/veiculos.php?excluido=1');
+    } else {
+        header('Location: ../views/veiculos.php?erro=1');
+    }
+    exit;
+}
+
+function buscarVeiculoPorId($id) {
+    global $conn;
+    $veiculo = new Veiculo($conn);
+    return $veiculo->buscarPorId($id);
+}
+?>

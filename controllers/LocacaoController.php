@@ -1,63 +1,56 @@
 <?php
-require_once __DIR__ . '/../models/Locacao.php';
-require_once __DIR__ . '/../models/Cliente.php';
-require_once __DIR__ . '/../models/Veiculo.php';
-require_once __DIR__ . '/../helpers/csrf.php';
-require_once __DIR__ . '/../helpers/auth.php';
-verificarAutenticacao();
+require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../models/locacao_model.php';
+session_start();
 
+$locacao = new Locacao($conn);
 
-class LocacaoController {
-    private $locacao;
+if (!isset($_SESSION['usuario'])) {
+    header('Location: ../views/login.php');
+    exit;
+}
 
-    public function __construct() {
-        $this->locacao = new Locacao();
-    }
+if (isset($_POST['acao'])) {
+    $acao = $_POST['acao'];
 
-    public function index() {
-        $locacoes = $this->locacao->listar();
-        include __DIR__ . '/../views/locacoes/listar.php';
-    }
+    if ($acao == 'cadastrar') {
+        $cliente_id = $_POST['cliente_id'];
+        $veiculo_id = $_POST['veiculo_id'];
+        $data_inicio = $_POST['data_inicio'];
+        $data_fim = $_POST['data_fim'];
+        $valor_total = $_POST['valor_total'];
 
-    public function adicionar() {
-        $clientes = (new Cliente())->listar();
-        $veiculos = (new Veiculo())->listar();
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!verificarTokenCSRF($_POST['csrf_token'])) {
-                die('Token CSRF inválido');
-            }
-            $this->locacao->adicionar($_POST);
-            header('Location: LocacaoController.php?action=index');
+        if ($locacao->cadastrar($cliente_id, $veiculo_id, $data_inicio, $data_fim, $valor_total)) {
+            header('Location: ../views/locacoes.php?sucesso=1');
+            exit;
         } else {
-            include __DIR__ . '/../views/locacoes/adicionar.php';
+            header('Location: ../views/locacoes.php?erro=1');
+            exit;
         }
     }
 
-    public function editar() {
-        $id = $_GET['id'];
-        $clientes = (new Cliente())->listar();
-        $veiculos = (new Veiculo())->listar();
+    if ($acao == 'editar') {
+        $id = $_POST['id'];
+        $cliente_id = $_POST['cliente_id'];
+        $veiculo_id = $_POST['veiculo_id'];
+        $data_inicio = $_POST['data_inicio'];
+        $data_fim = $_POST['data_fim'];
+        $valor_total = $_POST['valor_total'];
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!verificarTokenCSRF($_POST['csrf_token'])) {
-                die('Token CSRF inválido');
-            }
-            $this->locacao->atualizar($id, $_POST);
-            header('Location: LocacaoController.php?action=index');
+        if ($locacao->atualizar($id, $cliente_id, $veiculo_id, $data_inicio, $data_fim, $valor_total)) {
+            header('Location: ../views/locacoes.php?editado=1');
+            exit;
         } else {
-            $locacao = $this->locacao->buscar($id);
-            include __DIR__ . '/../views/locacoes/editar.php';
+            header('Location: ../views/locacoes.php?erro=1');
+            exit;
         }
-    }
-
-    public function deletar() {
-        $id = $_GET['id'];
-        $this->locacao->deletar($id);
-        header('Location: LocacaoController.php?action=index');
     }
 }
 
-$controller = new LocacaoController();
-$action = $_GET['action'] ?? 'index';
-$controller->$action();
+if (isset($_GET['excluir'])) {
+    $id = $_GET['excluir'];
+    $locacao->excluir($id);
+    header('Location: ../views/locacoes.php?excluido=1');
+    exit;
+}
+?>
