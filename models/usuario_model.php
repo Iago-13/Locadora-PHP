@@ -23,7 +23,7 @@ class Usuario {
     }
 
     public function cadastrar($nome, $cpf, $email, $senha) {
-        // Verifica se já existe email ou cpf
+        
         $stmt = $this->conn->prepare("SELECT id FROM usuarios WHERE email = ? OR cpf = ?");
         $stmt->bind_param("ss", $email, $cpf);
         $stmt->execute();

@@ -8,7 +8,6 @@ class Veiculo {
         $this->conn = $conn;
     }
 
-    // Lista todos os veículos
     public function listar() {
         $sql = "SELECT * FROM veiculos";
         $result = mysqli_query($this->conn, $sql);
@@ -20,7 +19,7 @@ class Veiculo {
         return $veiculos;
     }
 
-    // ✅ Este é o método que você estava precisando
+
     public function listarDisponiveisOuSelecionado($veiculo_id = null) {
         $sql = "SELECT * FROM veiculos WHERE disponivel = 1";
 

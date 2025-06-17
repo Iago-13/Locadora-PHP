@@ -10,12 +10,11 @@ require_once '../models/locacao_model.php';
 require_once '../models/cliente_model.php';
 require_once '../models/veiculo_model.php';
 
-// Instâncias dos models
+
 $locacaoModel = new Locacao($conn);
 $clienteModel = new Cliente($conn);
 $veiculoModel = new Veiculo($conn);
 
-// Busca dados
 $locacao = null;
 if (isset($_GET['id'])) {
     $locacao = $locacaoModel->buscarPorId($_GET['id']);
