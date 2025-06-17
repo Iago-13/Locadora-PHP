@@ -10,7 +10,6 @@ if (!isset($_SESSION['usuario'])) {
 
 $veiculo = new Veiculo($conn);
 
-// Cadastrar ou editar
 if (isset($_POST['acao'])) {
     $acao = $_POST['acao'];
 
@@ -46,7 +45,6 @@ if (isset($_POST['acao'])) {
     }
 }
 
-// Excluir
 if (isset($_GET['excluir'])) {
     $id = $_GET['excluir'];
     if ($veiculo->excluir($id)) {
@@ -57,7 +55,6 @@ if (isset($_GET['excluir'])) {
     exit;
 }
 
-// Buscar veículo por ID (para edição)
 function buscarVeiculoPorId($id) {
     global $conn;
     $veiculo = new Veiculo($conn);
