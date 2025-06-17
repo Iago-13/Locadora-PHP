@@ -10,7 +10,6 @@ require_once '../models/locacao_model.php';
 require_once '../models/cliente_model.php';
 require_once '../models/veiculo_model.php';
 
-
 $locacaoModel = new Locacao($conn);
 $clienteModel = new Cliente($conn);
 $veiculoModel = new Veiculo($conn);
