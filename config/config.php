@@ -1,13 +1,6 @@
 <?php
-$host = 'localhost';
-$db = 'locadora';
-$user = 'root';
-$pass = '';
-
-try {
-    $pdo = new PDO("mysql:host=localhost;port=3306;dbname=locadora;charset=utf8", "root", "");
-} catch (PDOException $e) {
-    echo "Erro na conexão: " . $e->getMessage();
-    exit;
-}
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'locadora');
+define('DB_USER', 'root');
+define('DB_PASS', '');
 ?>
