@@ -19,7 +19,6 @@ class Veiculo {
         return $veiculos;
     }
 
-
     public function listarDisponiveisOuSelecionado($veiculo_id = null) {
         $sql = "SELECT * FROM veiculos WHERE disponivel = 1";
 

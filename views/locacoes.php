@@ -22,7 +22,6 @@ $locacoes = $locacao->listar();
 <div class="container mt-5">
     <h2>Locações</h2>
 
-    
     <?php if (isset($_GET['sucesso'])): ?>
         <div class="alert alert-success">Locação cadastrada com sucesso!</div>
     <?php endif; ?>
